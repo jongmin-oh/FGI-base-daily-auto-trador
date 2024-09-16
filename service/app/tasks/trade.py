@@ -4,6 +4,7 @@ from pytz import timezone
 import requests
 
 from app.config import Config, Paths, TIME_OUT
+from app.utility.utils import round_up_to_second_decimal, truncate_to_second_decimal
 
 seoul_tz = timezone("Asia/Seoul")
 
@@ -82,7 +83,8 @@ class TradeManager:
 
 class AutoTrador:
     def __init__(self):
-        self.market = "AMS"
+        self.excd = "AMS"
+        self.market = "AMEX"
         self.code = "SPYG"
         self.access_token = TradeManager.get_access_token()
         self.usd = TradeManager.get_exchange_rate()
@@ -100,13 +102,13 @@ class AutoTrador:
         }
         params = {
             "AUTH": "",
-            "EXCD": self.market,
+            "EXCD": self.excd,
             "SYMB": self.code,
         }
         res = requests.get(URL, headers=headers, params=params, timeout=TIME_OUT)
         return float(res.json()["output"]["last"])
 
-    def get_balance(self):
+    def get_balance(self) -> int:
         """현금 잔고조회"""
         PATH = "uapi/domestic-stock/v1/trading/inquire-psbl-order"
         URL = f"{Config.HOST}/{PATH}"
@@ -131,3 +133,79 @@ class AutoTrador:
         cash = res.json()["output"]["ord_psbl_cash"]
 
         return int(cash)
+
+    def buy(self, qty: int, price: float) -> bool:
+        """미국 주식 지정가 매수"""
+
+        price = round_up_to_second_decimal(price)  # 소수점 2자리까지 반올림
+
+        PATH = "uapi/overseas-stock/v1/trading/order"
+        URL = f"{Config.HOST}/{PATH}"
+        data = {
+            "CANO": Config.CANO,  # 종합계좌번호
+            "ACNT_PRDT_CD": Config.ACNT_PRDT_CD,  # 계좌상품코드
+            "OVRS_EXCG_CD": self.market,  # 해외거래소코드
+            "PDNO": self.code,  # 종목코드
+            "ORD_DVSN": "00",  # 00 : 지정가
+            "ORD_QTY": str(int(qty)),  # 주문수량
+            "OVRS_ORD_UNPR": f"{round(price,2)}",
+            "ORD_SVR_DVSN_CD": "0",  # 주문서버구분코드
+        }
+        headers = {
+            "Content-Type": "application/json",
+            "authorization": f"Bearer {self.access_token}",
+            "appKey": Config.API_KEY,
+            "appSecret": Config.SECRET_KEY,
+            "tr_id": "TTTT1002U",  # TTTT1002U : 미국 매수 주문
+            "custtype": "P",  # P : 개인
+            "hashkey": TradeManager.hashkey(data),
+        }
+        res = requests.post(
+            URL, headers=headers, data=json.dumps(data), timeout=TIME_OUT
+        )
+
+        response = res.json()
+
+        if response["rt_cd"] == "0":
+            print(f"[매수 성공] : {response}")
+            return True
+        else:
+            print(f"[매수 실패] : {response}")
+            return False
+
+    def sell(self, qty: int, price: float) -> bool:
+        """미국 주식 지정가 매도"""
+
+        price = truncate_to_second_decimal(price)  # 소수점 2자리까지 버림
+        PATH = "uapi/overseas-stock/v1/trading/order"
+        URL = f"{Config.HOST}/{PATH}"
+        data = {
+            "CANO": Config.CANO,
+            "ACNT_PRDT_CD": Config.ACNT_PRDT_CD,
+            "OVRS_EXCG_CD": self.market,
+            "PDNO": self.code,
+            "ORD_DVSN": "00",
+            "ORD_QTY": str(int(qty)),
+            "OVRS_ORD_UNPR": f"{round(price,2)}",
+            "ORD_SVR_DVSN_CD": "0",
+        }
+        headers = {
+            "Content-Type": "application/json",
+            "authorization": f"Bearer {self.access_token}",
+            "appKey": Config.API_KEY,
+            "appSecret": Config.SECRET_KEY,
+            "tr_id": "TTTT1006U ",
+            "custtype": "P",
+            "hashkey": TradeManager.hashkey(data),
+        }
+        res = requests.post(
+            URL, headers=headers, data=json.dumps(data), timeout=TIME_OUT
+        )
+        response = res.json()
+
+        if response["rt_cd"] == "0":
+            print(f"[매도 성공] : {response['msg1']}")
+            return True
+        else:
+            print(f"[매도 실패] : {response['msg1']}")
+            return False
