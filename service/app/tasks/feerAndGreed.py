@@ -1,11 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 
-from app.config import CRAWL_URL
+from app.config import CRAWL_URL, TIME_OUT
 
 
 def get_fear_greed_index() -> float:
-    response = requests.get(CRAWL_URL)
+    response = requests.get(CRAWL_URL, timeout=TIME_OUT)
     soup = BeautifulSoup(response.text, "html.parser")
 
     # 'text-end fw-bold text-sm' 클래스를 가진 td 태그를 찾습니다.

@@ -1,6 +1,6 @@
 import requests
 
-from app.config import DiscordConfig
+from app.config import DiscordConfig, TIME_OUT
 
 
 def send_alert(title: str, message: str):
@@ -16,6 +16,6 @@ def send_alert(title: str, message: str):
     response = requests.post(
         DiscordConfig.DISCORD_WEBHOOK,
         json=payload,
-        timeout=5,
+        timeout=TIME_OUT,
     )
     response.raise_for_status()
