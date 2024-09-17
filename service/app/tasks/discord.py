@@ -14,14 +14,14 @@ def send_discord_notification(
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # 임베드 색상 및 제목 설정
-    if order == "매수":
-        color = 0x00FF00  # 초록색
-        title = "트레이딩 봇 알림: 매수 주문 실행"
-    elif order == "매도":
-        color = 0xFF0000  # 빨간색
+    if order == "매도":
+        color = 0x0000FF  # 파란색
         title = "트레이딩 봇 알림: 매도 주문 실행"
+    elif order == "매수":
+        color = 0xFF0000  # 빨간색
+        title = "트레이딩 봇 알림: 매수 주문 실행"
     else:  # "매수하지않음"
-        color = 0xFFFF00  # 노란색
+        color = 0x808080  # 회색
         title = "트레이딩 봇 알림: 매수하지 않음"
 
     # 메시지 본문 구성
