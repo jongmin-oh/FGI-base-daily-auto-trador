@@ -1,6 +1,7 @@
+from datetime import datetime
+
 import json
 import requests
-from datetime import datetime
 
 from app.config import DiscordConfig, TIME_OUT
 
@@ -16,13 +17,13 @@ def send_discord_notification(
     # 임베드 색상 및 제목 설정
     if order == "매도":
         color = 0x0000FF  # 파란색
-        title = "트레이딩 봇 알림: 매도 주문 실행"
+        title = "[미국주식] 트레이딩 봇 매도 주문 완료"
     elif order == "매수":
         color = 0xFF0000  # 빨간색
-        title = "트레이딩 봇 알림: 매수 주문 실행"
+        title = "[미국주식] 트레이딩 봇 매수 주문 완료"
     else:  # "매수하지않음"
         color = 0x808080  # 회색
-        title = "트레이딩 봇 알림: 매수하지 않음"
+        title = "[미국주식] 트레이딩 봇 매수하지 않음"
 
     # 메시지 본문 구성
     embed = {
