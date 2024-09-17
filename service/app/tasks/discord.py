@@ -1,10 +1,18 @@
 import json
 import requests
+from datetime import datetime
 
 from app.config import DiscordConfig, TIME_OUT
 
 
-def send_discord_notification(fng_value, order, qty, price, usd_krw_rate, cash):
+def send_discord_notification(
+    fng_value, fng_type, order, qty, price, usd_krw_rate, cash
+):
+    """Discord 알림 전송"""
+
+    # 현재 시간
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     # 임베드 색상 및 제목 설정
     if order == "매수":
         color = 0x00FF00  # 초록색
@@ -21,7 +29,11 @@ def send_discord_notification(fng_value, order, qty, price, usd_krw_rate, cash):
         "title": title,
         "color": color,
         "fields": [
-            {"name": "공포 탐욕 지수", "value": str(fng_value), "inline": True},
+            {
+                "name": f"공포 탐욕 지수 {fng_type}",
+                "value": str(fng_value),
+                "inline": True,
+            },
             {"name": "주문 유형", "value": order, "inline": True},
             {"name": "수량", "value": str(qty), "inline": True},
             {"name": "가격 (USD)", "value": f"${price:.2f}", "inline": True},
@@ -30,7 +42,8 @@ def send_discord_notification(fng_value, order, qty, price, usd_krw_rate, cash):
                 "value": f"₩{price * usd_krw_rate:,.0f}",
                 "inline": True,
             },
-            {"name": "현재 현금 잔고", "value": f"${cash:.2f}", "inline": True},
+            {"name": "현재 현금 잔고", "value": f"₩{cash:,.0f}", "inline": True},
+            {"name": "알림 시각", "value": current_time, "inline": False},
         ],
     }
 
