@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import yaml
 
-CRAWL_URL: Final[str] = "https://www.indexergo.com/series/?frq=D&idxDetail=24501"
+CRAWL_URL: Final[str] = "https://edition.cnn.com/markets/fear-and-greed"
 TIME_OUT: Final[int] = 10
 
 
@@ -26,6 +26,7 @@ class Config:
     HOST = SECRETS["KOREA_INVESTMENT"]["HOST"]
     CANO = SECRETS["KOREA_INVESTMENT"]["CANO"]
     ACNT_PRDT_CD = SECRETS["KOREA_INVESTMENT"]["ACNT_PRDT_CD"]
+    PHONE_NUMBER = SECRETS["PHONE_NUMBER"]
 
 
 @dataclass(frozen=True)

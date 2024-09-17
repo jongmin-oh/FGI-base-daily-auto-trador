@@ -162,3 +162,4 @@ cython_debug/
 #.idea/
 app/secrets.yml
 service/app/access_token.json
+service/app/secrets.yml

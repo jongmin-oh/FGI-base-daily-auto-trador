@@ -1,3 +1,5 @@
+from typing import Union, Dict
+
 import json
 from datetime import datetime
 from pytz import timezone
@@ -194,7 +196,7 @@ class AutoTrador:
             "authorization": f"Bearer {self.access_token}",
             "appKey": Config.API_KEY,
             "appSecret": Config.SECRET_KEY,
-            "tr_id": "TTTT1006U ",
+            "tr_id": "TTTT1006U",
             "custtype": "P",
             "hashkey": TradeManager.hashkey(data),
         }
@@ -209,3 +211,74 @@ class AutoTrador:
         else:
             print(f"[매도 실패] : {response['msg1']}")
             return False
+
+    def check_pending(self) -> dict:
+        """미체결 확인"""
+        PATH = "uapi/overseas-stock/v1/trading/inquire-nccs"
+        URL = f"{Config.HOST}/{PATH}"
+
+        params = {
+            "CANO": Config.CANO,
+            "ACNT_PRDT_CD": Config.ACNT_PRDT_CD,
+            "OVRS_EXCG_CD": self.market,
+            "SORT_SQN": "DS",
+            "CTX_AREA_FK200": "",
+            "CTX_AREA_NK200": "",
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "authorization": f"Bearer {self.access_token}",
+            "appKey": Config.API_KEY,
+            "appSecret": Config.SECRET_KEY,
+            "tr_id": "TTTS3018R",
+            "custtype": "P",
+        }
+
+        res = requests.post(URL, headers=headers, params=params, timeout=TIME_OUT)
+        response = res.json()
+
+        if len(response["output"]) == 0:
+            return {"is_pending": False}
+        else:
+            return {
+                "is_pending": True,
+                "pdno": response["output"][0]["pdno"],
+                "odno": response["output"][0]["odno"],
+                "qty": response["output"][0]["ft_ord_qty"],
+            }
+
+    def cancel_order(self, qty: str, pdno: str, odno: str) -> bool:
+        """미체결 취소"""
+        PATH = "uapi/overseas-stock/v1/trading/order-rvsecncl"
+        URL = f"{Config.HOST}/{PATH}"
+        data = {
+            "CANO": Config.CANO,
+            "ACNT_PRDT_CD": Config.ACNT_PRDT_CD,
+            "OVRS_EXCG_CD": self.market,
+            "PDNO": pdno,
+            "ORGN_ODNO": odno,
+            "RVSE_CNCL_DVSN_CD": "02",  # 02 : 취소
+            "ORD_QTY": qty,
+            "OVRS_ORD_UNPR": "0",  # 최소주문 시 "0" 입력
+        }
+        headers = {
+            "Content-Type": "application/json",
+            "authorization": f"Bearer {self.access_token}",
+            "appKey": Config.API_KEY,
+            "appSecret": Config.SECRET_KEY,
+            "tr_id": "TTTT1004U",
+            "custtype": "P",
+            "hashkey": TradeManager.hashkey(data),
+        }
+        res = requests.post(
+            URL, headers=headers, data=json.dumps(data), timeout=TIME_OUT
+        )
+        response = res.json()
+
+        if response["rt_cd"] == "0":
+            print(f"[취소 성공] : {response['msg1']}")
+            return {"status": 200, "msg": response["msg1"]}
+        else:
+            print(f"[취소 실패] : {response['msg1']}")
+            return {"status": 500, "msg": response["msg1"]}
