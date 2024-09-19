@@ -63,4 +63,34 @@ def send_discord_notification(
     if response.status_code == 204:
         print("Discord 알림이 성공적으로 전송되었습니다.")
     else:
-        print(f"Discord 알림 전송 실패. 상태 코드: {response.status_code}")
+        raise ValueError(f"Discord 알림 전송 실패. 상태 코드: {response.status_code}")
+
+
+def send_discord_error_alert(message: str):
+    """Discord 에러 알림 전송"""
+
+    # 메시지 본문 구성
+    embed = {
+        "title": "[미국주식] 트레이딩 봇 오류 발생",
+        "color": 0xFFA500,  # 주황색
+        "fields": [{"name": "오류 내용", "value": message, "inline": False}],
+    }
+
+    # 웹훅 페이로드 구성
+    payload = {"embeds": [embed]}
+
+    # 웹훅 전송
+    headers = {"Content-Type": "application/json"}
+    response = requests.post(
+        DiscordConfig.DISCORD_WEBHOOK,
+        data=json.dumps(payload),
+        headers=headers,
+        timeout=TIME_OUT,
+    )
+
+    if response.status_code == 204:
+        print("Discord 에러 알림이 성공적으로 전송되었습니다.")
+    else:
+        raise ValueError(
+            f"Discord 에러 알림 전송 실패. 상태 코드: {response.status_code}"
+        )

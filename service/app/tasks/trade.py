@@ -1,9 +1,8 @@
-from typing import Union, Dict
-
 import json
 from datetime import datetime
-from pytz import timezone
+
 import requests
+from pytz import timezone
 
 from app.config import Config, Paths, TIME_OUT
 from app.utility.utils import round_up_to_second_decimal, truncate_to_second_decimal
@@ -172,8 +171,7 @@ class AutoTrador:
             print(f"[매수 성공] : {response}")
             return True
         else:
-            print(f"[매수 실패] : {response}")
-            return False
+            raise ValueError(f"[매수 실패] : {response}")
 
     def sell(self, qty: int, price: float) -> bool:
         """미국 주식 지정가 매도"""
@@ -209,8 +207,7 @@ class AutoTrador:
             print(f"[매도 성공] : {response['msg1']}")
             return True
         else:
-            print(f"[매도 실패] : {response['msg1']}")
-            return False
+            raise ValueError(f"[매도 실패] : {response['msg1']}")
 
     def check_pending(self) -> dict:
         """미체결 확인"""
