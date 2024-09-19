@@ -1,4 +1,5 @@
 import time
+
 from app.tasks.trade import AutoTrador
 from app.tasks.feerAndGreed import get_fear_greed_index
 from app.tasks.discord import send_discord_notification, send_discord_error_alert
@@ -12,6 +13,8 @@ def order_stock(trader: AutoTrador) -> dict:
         raise ValueError("잔고가 부족합니다.")
 
     fng_value: int = get_fear_greed_index()
+
+    print(f"Current FNG value: {fng_value}")
 
     if fng_value <= 25:
         fng_type, qty, behavior = "Extreme Fear", 2, "매수"
