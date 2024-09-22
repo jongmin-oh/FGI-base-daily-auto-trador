@@ -42,7 +42,7 @@ def order_stock(trader: AutoTrador) -> dict:
     }
 
 
-def lambda_function(event, context):
+def run_trading():
     try:
         trader = AutoTrador()
 
@@ -76,4 +76,4 @@ def lambda_function(event, context):
 
 
 if __name__ == "__main__":
-    lambda_function(None, None)
+    run_trading()
