@@ -35,11 +35,10 @@ def get_fear_greed_index() -> float:
         # 페이지 로드
         driver.get(CRAWL_URL)
 
-        # 요소가 로드될 때까지 대기
-        selector = "body > div.layout__content-wrapper.layout-with-rail__content-wrapper > section.layout__wrapper.layout-with-rail__wrapper > section.layout__main-wrapper.layout-with-rail__main-wrapper > section.layout__main.layout-with-rail__main > div > section > div.market-tabbed-container > div.market-tabbed-container__content > div.market-tabbed-container__tab.market-tabbed-container__tab--1 > div > div.market-fng-gauge__overview > div.market-fng-gauge__meter-container > div > div.market-fng-gauge__dial-number > span"
-
         element = WebDriverWait(driver, WAIT_TIME).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, selector))
+            EC.presence_of_element_located(
+                (By.CLASS_NAME, "market-fng-gauge__dial-number-value")
+            )
         )
 
         # 값 추출 및 반환
