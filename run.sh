@@ -1,1 +1,1 @@
-python3 trading.py
+python3 /home/acdong/jmoh/stock-auto-trade/trading.py
