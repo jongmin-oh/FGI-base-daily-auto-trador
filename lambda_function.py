@@ -42,7 +42,7 @@ def order_stock(trader: AutoTrador) -> dict:
     }
 
 
-def run_trading():
+def lambda_handler(event, context):
     try:
         trader = AutoTrador()
 
@@ -73,7 +73,3 @@ def run_trading():
     except Exception as e:
         send_discord_error_alert(str(e))
         raise e
-
-
-if __name__ == "__main__":
-    run_trading()
