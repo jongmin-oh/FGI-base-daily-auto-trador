@@ -2,15 +2,54 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
-  FGIDailyTraderFunction:
+  LambdaFunction:
     Type: AWS::Serverless::Function
+
     Properties:
       PackageType: Image
+      FunctionName: FGI-daily-trader
       ImageConfig:
         Command: ["lambda_function.lambda_handler"]
-      Timeout: 900  # 15분
-      MemorySize: 1024  # 1GB
+      Timeout: 60
+      MemorySize: 1024
+
+      Environment:
+        Variables:
+          TZ: "Asia/Seoul"
+
     Metadata:
       Dockerfile: Dockerfile
       DockerContext: .
       DockerTag: latest
+
+  SchedulerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - scheduler.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SchedulerInvokeLambdaPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: lambda:InvokeFunction
+                Resource: !GetAtt LambdaFunction.Arn
+
+  AutoTradeScheduler:
+    Type: AWS::Scheduler::Schedule
+    Properties:
+      Name: stock-auto-trade-scheduler
+      ScheduleExpression: 'cron(0 14 ? * MON-FRI *)' # 23:00 KST
+      FlexibleTimeWindow:
+        Mode: "OFF"
+      Target:
+        Arn: !GetAtt LambdaFunction.Arn
+        RoleArn: !GetAtt SchedulerRole.Arn
+        Input: '{}'

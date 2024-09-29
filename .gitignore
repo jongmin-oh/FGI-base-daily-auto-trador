@@ -163,3 +163,4 @@ cython_debug/
 app/secrets.yml
 app/access_token.json
 .aws-sam/build.toml
+samconfig.toml
