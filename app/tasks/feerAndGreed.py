@@ -17,12 +17,12 @@ def get_fear_greed_index() -> float:
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.binary_location = (
-        "/opt/chrome/chrome-linux/chrome"  # Chrome 바이너리 위치 지정
+        "/opt/chrome/chrome-linux64/chrome"  # Chrome 바이너리 위치 지정
     )
 
     # WebDriver 설정
     service = Service(
-        "/opt/chrome-driver/chromedriver-linux64/chromedriver"
+        "/opt/chromedriver/chromedriver-linux64/chromedriver"
     )  # ChromeDriver 위치 지정
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
