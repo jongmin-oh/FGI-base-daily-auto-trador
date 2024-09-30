@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from app.config import CRAWL_URL
 
-WAIT_TIME = 60  # 최대 대기 시간 (초)
+WAIT_TIME = 300  # 최대 대기 시간 (초)
 
 
 def get_fear_greed_index() -> float:

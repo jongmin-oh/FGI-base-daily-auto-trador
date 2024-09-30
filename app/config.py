@@ -12,7 +12,7 @@ TIME_OUT: Final[int] = 10
 class Paths:
     BASE_DIR: Path = Path(__file__).resolve().parent
     SECRETS_PATH: Path = BASE_DIR.joinpath("secrets.yml")
-    ACCESS_TOKEN_PATH: Path = BASE_DIR.joinpath("access_token.json")
+    ACCESS_TOKEN_PATH: Path = BASE_DIR.joinpath("/tmp/access_token.json")
 
 
 with open(Paths.SECRETS_PATH, "r", encoding="utf-8") as file:

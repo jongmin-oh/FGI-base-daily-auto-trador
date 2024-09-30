@@ -1,1 +1,1 @@
-sam local invoke FGIDailyTraderFunction
+sam local invoke LambdaFunction
