@@ -6,7 +6,7 @@ STACK_NAME=FGI-daily-trader
 sam build --profile $AWS_PROFILE
 
 # 로컬 실행
-# sam local invoke FGIDailyTraderFunction --profile $AWS_PROFILE
+# sam local invoke LambdaFunction --profile $AWS_PROFILE
 
 # 배포
 sam deploy

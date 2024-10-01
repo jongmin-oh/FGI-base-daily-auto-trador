@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 다운로드 URL 생성
-chrome_url=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json | jq -r '.channels.Stable.downloads.chrome[] | select(.platform == "linux64") | .url')
-chromedriver_url=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json | jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform == "linux64") | .url')
+chrome_url="https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.70/linux64/chrome-headless-shell-linux64.zip"
+chromedriver_url="https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.70/linux64/chromedriver-linux64.zip"
 
 download_path_chrome_linux="/opt/chrome-linux.zip"
 download_path_chrome_driver_linux="/opt/chromedriver-linux.zip"
