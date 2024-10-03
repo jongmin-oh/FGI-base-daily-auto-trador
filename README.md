@@ -7,6 +7,7 @@
 | KIS API | [한국투자증권 API 문서](https://apiportal.koreainvestment.com/apiservice) |
 
 # Fear And Greed Index(공포 탐욕지수)란?
+![Fear & Greed Icon](assets/logo.png) [CNN Fear & Greed Index](https://edition.cnn.com/markets/fear-and-greed)
 주식 시장의 전반적인 심리 상태를 나타내는 지표입니다. <br>
 이 지수는 투자자들의 감정이 시장에 미치는 영향을 측정하려는 목적으로 만들어졌습니다.<br><br>
 
