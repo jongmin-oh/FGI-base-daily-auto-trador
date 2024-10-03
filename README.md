@@ -49,3 +49,9 @@ CNN에서 제공하는 주식 시장의 전반적인 심리 상태를 나타내�
 - 한국투자증권 API 키 발급
 - 디스코드(Discord) 가입
 
+# 개발
+
+## 구현 아키텍쳐
+![FGI](assets/architecture.jpeg)
+
+
