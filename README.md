@@ -20,15 +20,18 @@
   - 안전자산 수요
 
 # 매매전략
-"대중의 심리에 반대로 투자하라(Be fearful when others are greedy, and greedy when others are fearful)"는
+"대중의 심리에 반대로 투자하라(Be fearful when others are greedy, and greedy when others are fearful)"는<br>
  워렌 버핏의 유명한 격언을 현실화한 전략
 
-(월~금) 11시에 (매수/행동없음/매도)를 진행
-[EXTREME FEAR]	2주 매수
-[FEAR]	1주 매수
-[NEUTRAL]	행동 없음
-[GREED]	1주 매도
-[EXTREME GREED]	2주 매도
+(월~금) 11시에 (매수/행동없음/매도)를 진행
+
+| 지수 상태 | 행동 |
+|-----------|------|
+| EXTREME FEAR | 2주 매수 |
+| FEAR | 1주 매수 |
+| NEUTRAL | 행동 없음 |
+| GREED | 1주 매도 |
+| EXTREME GREED | 2주 매도 |
 
 [장점]
 1. 극단적인 감정에 휩쓸리지 않고 냉정하게 매매
