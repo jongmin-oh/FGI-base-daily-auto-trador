@@ -22,7 +22,8 @@
   - 안전자산 수요
 
 # 매매전략(대중의 심리에 반대로 투자하라)
-## Be fearful when others are greedy, and greedy when others are fearful
+### Be fearful when others are greedy, and greedy when others are fearful
+
 워렌 버핏의 유명한 격언을 현실화한 전략<br>
 
 (월~금) 11시에 (매수/행동없음/매도)를 진행
