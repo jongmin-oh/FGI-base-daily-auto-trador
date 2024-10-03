@@ -3,7 +3,7 @@
 | 항목 | 링크 |
 |------|------|
 | 자동매매 | [누구나 쉽게 주식 투자 자동화 - 배경지식 없이 20분만에 똑똑한 국내, 해외 자동매매 시스템 완성](https://www.youtube.com/watch?v=2Hxfb5HT4kE&t=108s) |
-| AWS | [AWS Lambda에서 크롬 셀레니움 사용하기](https://youtu.be/8XBkm9DD6Ic?si=A2MK2qkXNyTr70i8) |
+| AWS | [AWS Lambda에서 크롬 셀레니움 사용하기](https://youtu.be/8XBkm9DD6Ic?si=A2MK2qkXNyTr70i8) |
 | KIS API | [한국투자증권 API 문서](https://apiportal.koreainvestment.com/apiservice) |
 
 # Fear And Greed Index(공포 탐욕지수)란?
